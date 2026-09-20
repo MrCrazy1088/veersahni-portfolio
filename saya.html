@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Saya — A heat-strain wearable for outdoor workers</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Saya is a low-cost wrist wearable that warns outdoor workers of dangerous heat strain before it becomes heat stroke. A research and engineering project by Veer Sahni." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1c1a18; --paper:#f0eee9; --card:#fff; --cream:#f9f6ef;
+    --line:#e5dfd0; --line2:#ece4d2; --muted:#8a8275; --body:#2e2a26; --orange:#f06a2a;
+    --green:#3fa66a; --blue:#3a78d6; --amber:#e7b13b; --red:#e23a2f;
+    --sand:#e9e3d6;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;padding:0;background:var(--paper);font-family:'Space Grotesk',system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;}
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+
+  /* ---------- top nav ---------- */
+  .nav{position:sticky;top:0;z-index:50;background:rgba(240,238,233,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);}
+  .nav-inner{max-width:1080px;margin:0 auto;padding:14px 30px;display:flex;align-items:center;gap:24px;}
+  .nav .brand{display:flex;align-items:center;gap:9px;text-decoration:none;}
+  .nav .brand .bn{font-weight:600;font-size:20px;letter-spacing:-0.04em;}
+  .nav .links{margin-left:auto;display:flex;gap:6px;align-items:center;}
+  .nav .links a{font-size:13.5px;text-decoration:none;color:var(--body);padding:7px 13px;border-radius:8px;font-weight:500;transition:background .12s;}
+  .nav .links a:hover{background:var(--sand);}
+  .nav .links a.cta{background:var(--ink);color:#fff;}
+  .nav .links a.back{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);}
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 30px;}
+
+  /* ---------- hero ---------- */
+  .hero{padding:90px 0 70px 0;display:grid;grid-template-columns:1.15fr 0.85fr;gap:50px;align-items:center;}
+  .hero .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:var(--orange);font-weight:600;margin:0 0 18px 0;}
+  .hero h1{font-weight:600;font-size:54px;line-height:1.04;letter-spacing:-0.035em;margin:0 0 22px 0;}
+  .hero .sub{font-size:18px;line-height:1.6;color:var(--body);max-width:42ch;margin:0 0 28px 0;text-wrap:pretty;}
+  .hero .btns{display:flex;gap:12px;flex-wrap:wrap;}
+  .btn{font-size:14.5px;font-weight:500;text-decoration:none;padding:12px 22px;border-radius:100px;transition:transform .12s;}
+  .btn:hover{transform:translateY(-2px);}
+  .btn.primary{background:var(--orange);color:#fff;}
+  .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink);}
+
+  /* watch illustration */
+  .watch-art{display:flex;align-items:center;justify-content:center;}
+  .watch-art svg{width:100%;max-width:320px;height:auto;filter:drop-shadow(0 20px 40px rgba(28,26,24,0.16));}
+
+  /* ---------- stat band ---------- */
+  .band{background:var(--ink);color:#f3eee3;}
+  .band-inner{max-width:1080px;margin:0 auto;padding:46px 30px;display:grid;grid-template-columns:repeat(4,1fr);gap:30px;}
+  .band .stat .n{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:34px;letter-spacing:-0.02em;color:#fff;line-height:1;}
+  .band .stat .n .u{font-size:18px;color:var(--orange);}
+  .band .stat .l{font-size:13px;line-height:1.45;color:#b8b0a2;margin-top:9px;}
+
+  /* ---------- section base ---------- */
+  section{padding:78px 0;}
+  .sec-tag{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--orange);font-weight:600;margin:0 0 14px 0;}
+  h2{font-weight:600;font-size:36px;line-height:1.1;letter-spacing:-0.025em;margin:0 0 18px 0;}
+  .sec-lead{font-size:17px;line-height:1.65;color:var(--body);max-width:62ch;text-wrap:pretty;}
+
+  /* mission — serif, editorial */
+  .mission{background:var(--cream);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .mission .mtext{font-family:'Newsreader',Georgia,serif;font-size:22px;line-height:1.6;color:var(--ink);max-width:60ch;text-wrap:pretty;}
+  .mission .mtext p{margin:0 0 20px 0;}
+  .mission .mtext .lead{font-size:27px;line-height:1.4;}
+  .mission .sig{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.06em;color:var(--muted);margin-top:10px;}
+
+  /* how it works cards */
+  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:42px;}
+  .feat{background:var(--card);border:1px solid var(--line2);border-radius:16px;padding:26px 24px;}
+  .feat .ic{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;}
+  .feat h3{font-size:18px;font-weight:600;letter-spacing:-0.01em;margin:0 0 8px 0;}
+  .feat p{font-size:14px;line-height:1.55;color:var(--body);margin:0;text-wrap:pretty;}
+
+  /* build log timeline */
+  .log{position:relative;margin-top:44px;padding-left:34px;}
+  .log::before{content:'';position:absolute;left:9px;top:8px;bottom:8px;width:2px;background:var(--line);}
+  .entry{position:relative;margin-bottom:40px;}
+  .entry::before{content:'';position:absolute;left:-34px;top:5px;width:12px;height:12px;border-radius:50%;background:var(--orange);border:3px solid var(--paper);z-index:1;}
+  .entry .date{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.08em;text-transform:uppercase;color:var(--orange);font-weight:600;margin-bottom:7px;}
+  .entry h3{font-size:21px;font-weight:600;letter-spacing:-0.015em;margin:0 0 9px 0;}
+  .entry p{font-size:15px;line-height:1.6;color:var(--body);margin:0 0 14px 0;max-width:60ch;text-wrap:pretty;}
+  .entry .media{background:var(--sand);border:1px solid var(--line2);border-radius:13px;height:230px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;color:var(--muted);max-width:560px;}
+  .entry .media .mlabel{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;}
+  .entry .media .mhint{font-size:12.5px;}
+
+  .tagrow{display:flex;gap:7px;flex-wrap:wrap;margin-top:13px;}
+  .chip{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.04em;background:var(--cream);border:1px solid var(--line);border-radius:100px;padding:5px 12px;color:var(--body);}
+
+  /* other work */
+  .otherwork{background:var(--cream);border-top:1px solid var(--line);}
+  .ow-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px;}
+  .ow{background:var(--card);border:1px solid var(--line2);border-radius:14px;padding:22px;}
+  .ow .ot{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:9px;}
+  .ow h3{font-size:17px;font-weight:600;margin:0 0 6px 0;letter-spacing:-0.01em;}
+  .ow p{font-size:13.5px;line-height:1.5;color:var(--body);margin:0;}
+
+  /* footer */
+  footer{background:var(--ink);color:#e8e2d6;padding:60px 0 40px 0;}
+  footer .fwrap{max-width:1080px;margin:0 auto;padding:0 30px;}
+  footer h2{color:#fff;font-size:30px;margin-bottom:14px;}
+  footer .ftext{font-size:15px;line-height:1.6;color:#b8b0a2;max-width:50ch;margin:0 0 26px 0;}
+  footer .fcontact{display:flex;gap:14px;flex-wrap:wrap;}
+  footer .fcontact a{font-size:14px;text-decoration:none;color:#fff;border:1px solid #3a3530;border-radius:100px;padding:10px 20px;transition:background .12s;}
+  footer .fcontact a:hover{background:#2a2622;}
+  footer .legal{margin-top:44px;padding-top:22px;border-top:1px solid #3a3530;font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#7a7264;letter-spacing:0.04em;line-height:1.7;}
+
+  @media (max-width:860px){
+    .hero{grid-template-columns:1fr;gap:36px;padding:56px 0 48px 0;}
+    .hero h1{font-size:40px;}
+    .watch-art{order:-1;}
+    .band-inner{grid-template-columns:repeat(2,1fr);gap:26px;}
+    .features{grid-template-columns:1fr;}
+    .ow-grid{grid-template-columns:1fr;}
+    h2{font-size:29px;}
+  }
+</style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <div class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#top">
+        <svg width="26" height="26" viewBox="0 0 40 40" aria-hidden="true">
+          <defs><clipPath id="nv"><path d="M 0 0 L 40 0 L 40 18 Q 20 26 0 18 Z"/></clipPath></defs>
+          <circle cx="20" cy="20" r="14" fill="none" stroke="#f06a2a" stroke-width="2.5"/>
+          <circle cx="20" cy="20" r="14" fill="#f06a2a" clip-path="url(#nv)"/>
+        </svg>
+        <span class="bn">saya</span>
+      </a>
+      <div class="links">
+        <a href="#mission">Mission</a>
+        <a href="#how">How it works</a>
+        <a href="#model">3D model</a>
+        <a href="#video">Video</a>
+        <a href="#log">Build log</a>
+        <a href="#research">Research</a>
+        <a class="cta" href="heat-risk.html">Live heat risk →</a>
+        <a class="back" href="index.html">← Back to veersahni.com</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="wrap" id="top">
+    <div class="hero">
+      <div>
+        <p class="eyebrow">A research &amp; engineering project</p>
+        <h1>Warning workers<br>before the heat<br>becomes deadly.</h1>
+        <p class="sub">Saya is a low-cost wrist wearable that detects dangerous heat strain in outdoor workers — and warns them early, before it turns into heat stroke. Built from the ground up: hardware, firmware, and a field study in Kuwait's 46&nbsp;°C summer.</p>
+        <div class="btns">
+          <a class="btn primary" href="#log">Follow the build →</a>
+          <a class="btn ghost" href="#mission">Why I'm building it</a>
+        </div>
+      </div>
+      <div class="watch-art">
+        <!-- stylised watch -->
+        <svg viewBox="0 0 280 360" aria-label="Saya wearable">
+          <!-- straps -->
+          <path d="M 95 30 Q 92 90 100 120 L 180 120 Q 188 90 185 30 Z" fill="#d9583a" opacity="0.9"/>
+          <path d="M 100 240 L 180 240 Q 188 300 185 340 L 95 340 Q 92 300 100 240 Z" fill="#d9583a" opacity="0.9"/>
+          <!-- strap perforations -->
+          <g fill="#b8472d">
+            <circle cx="125" cy="58" r="3.5"/><circle cx="155" cy="58" r="3.5"/>
+            <circle cx="125" cy="78" r="3.5"/><circle cx="155" cy="78" r="3.5"/>
+            <circle cx="125" cy="295" r="3.5"/><circle cx="155" cy="295" r="3.5"/>
+            <circle cx="125" cy="315" r="3.5"/><circle cx="155" cy="315" r="3.5"/>
+          </g>
+          <!-- case -->
+          <rect x="58" y="108" width="164" height="146" rx="34" fill="#1c1a18"/>
+          <rect x="58" y="108" width="164" height="146" rx="34" fill="none" stroke="#3a3530" stroke-width="1"/>
+          <!-- side button -->
+          <rect x="222" y="158" width="9" height="30" rx="4" fill="#3a3530"/>
+          <!-- glowing face -->
+          <circle cx="140" cy="181" r="58" fill="#0f0e0d"/>
+          <circle cx="140" cy="181" r="58" fill="none" stroke="#2a2622" stroke-width="1"/>
+          <!-- the RGB glow ring -->
+          <circle cx="140" cy="181" r="46" fill="none" stroke="#3fa66a" stroke-width="3" opacity="0.9"/>
+          <circle cx="140" cy="181" r="46" fill="#3fa66a" opacity="0.08"/>
+          <!-- center mark -->
+          <g opacity="0.95">
+            <circle cx="140" cy="181" r="20" fill="none" stroke="#f06a2a" stroke-width="3"/>
+            <path d="M 120 181 L 160 181 Q 140 196 120 181 Z" fill="#f06a2a"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- STAT BAND -->
+  <div class="band">
+    <div class="band-inner">
+      <div class="stat"><div class="n">46<span class="u">°C</span></div><div class="l">Kuwait summer highs workers labor through</div></div>
+      <div class="stat"><div class="n">3</div><div class="l">Vital + environmental signals fused for early warning</div></div>
+      <div class="stat"><div class="n">&lt;$70</div><div class="l">Target cost — built to be affordable at scale</div></div>
+      <div class="stat"><div class="n">25–30</div><div class="l">Workers in the planned field study</div></div>
+    </div>
+  </div>
+
+  <!-- MISSION -->
+  <section class="mission" id="mission">
+    <div class="wrap">
+      <p class="sec-tag">The why</p>
+      <div class="mtext">
+        <p class="lead">It started at a dinner table.</p>
+        <p>I was twelve, stranded in Qatar during the pandemic, watching a country build World Cup stadiums in heat that could kill the people building them. We talked about it over dinner — the reforms, the scrutiny, and the workers who didn't come home. Many had crossed the Gulf from the subcontinent, the way my own great-grandfather once did, looking for work.</p>
+        <p>For years that feeling just sat there, useless. Empathy without a tool is only a feeling. Saya is my attempt to give it a tool — something that watches for danger a worker can't feel coming, and speaks up while there's still time to act.</p>
+        <p class="sig">— Veer Sahni</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="wrap">
+      <p class="sec-tag">How it works</p>
+      <h2>It feels what the body feels.</h2>
+      <p class="sec-lead">Saya continuously reads a worker's vital signs and their immediate environment, and escalates a warning through three channels you can't miss — even in blinding sun and site noise.</p>
+
+      <div class="features">
+        <div class="feat">
+          <div class="ic" style="background:#f8e9e7"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#e23a2f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.4 4.6a5.5 5.5 0 0 0-7.8 0L12 5.2l-.6-.6a5.5 5.5 0 0 0-7.8 7.8l.6.6L12 21l7.8-8 .6-.6a5.5 5.5 0 0 0 0-7.8z"/></svg></div>
+          <h3>Senses strain early</h3>
+          <p>Heart rate, skin temperature, sweat response, and ambient heat &amp; humidity — watched continuously, so rising strain is caught on the way up, not after collapse.</p>
+        </div>
+        <div class="feat">
+          <div class="ic" style="background:#fdeede"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f06a2a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3" fill="#f06a2a"/></svg></div>
+          <h3>Warns unmistakably</h3>
+          <p>The whole face glows — visible across a worksite in direct sun. A 90&nbsp;dB alarm and a wrist buzz make sure the worker, and those nearby, know to stop.</p>
+        </div>
+        <div class="feat">
+          <div class="ic" style="background:#e8f3ec"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3fa66a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg></div>
+          <h3>Remembers everything</h3>
+          <p>Every reading is timestamped and stored, so the data can answer a hard question: does danger really keep to the hours the law assumes it does?</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEO -->
+  <section id="video" style="border-top:1px solid var(--line);">
+    <div class="wrap">
+      <p class="sec-tag">Watch</p>
+      <h2>The build, and the field.</h2>
+      <p class="sec-lead">A short film covering how Saya was designed and built — from breadboard to manufactured circuit board — and the field trials with outdoor workers in Kuwait.</p>
+      <div style="margin-top:34px;border:1px solid var(--line2);border-radius:16px;overflow:hidden;background:var(--ink);aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;">
+        <!-- Replace this block with the embed once the video is uploaded:
+             <iframe src="https://www.youtube.com/embed/VIDEO_ID" style="width:100%;height:100%;border:0;display:block;" title="Saya — build and field trials" allowfullscreen loading="lazy"></iframe> -->
+        <div style="text-align:center;padding:40px;">
+          <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--orange);margin:0 0 12px 0;font-weight:600;">Coming soon</p>
+          <p style="color:#c8c0b2;font-size:15px;line-height:1.6;margin:0;max-width:44ch;">Filming during the August–September field trials. The video will be embedded here.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3D MODEL -->
+  <section id="model" style="border-top:1px solid var(--line);">
+    <div class="wrap">
+      <p class="sec-tag">Inside the watch</p>
+      <h2>Every part, in its place.</h2>
+      <p class="sec-lead">A working 3D model of the enclosure, dimensioned to the real 41.89 × 34.43&nbsp;mm circuit board. Drag to rotate, scroll to zoom. The case is rendered transparent so the internal stack is visible — the board, the battery offset to one end, the haptic motors, and the clear polycarbonate windows the sensors read through.</p>
+      <div style="margin-top:34px;border:1px solid var(--line2);border-radius:16px;overflow:hidden;background:var(--card);">
+        <iframe src="Saya - Enclosure 3D Model.html" style="width:100%;height:620px;border:0;display:block;" title="Saya enclosure 3D model" loading="lazy"></iframe>
+      </div>
+      <p class="note" style="font-size:13px;color:var(--muted);margin-top:16px;line-height:1.6;">Component positions are taken from the manufactured board's pick-and-place file, so the sensor windows sit directly beneath the sensors that use them. The heart-rate sensor fires down through the caseback window into the wrist, which is why nothing is allowed to sit in that optical path.</p>
+    </div>
+  </section>
+
+  <!-- BUILD LOG -->
+  <section id="log" style="background:var(--cream);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+    <div class="wrap">
+      <p class="sec-tag">Build log</p>
+      <h2>Building it in the open.</h2>
+      <p class="sec-lead">The real process — the breadboards, the schematics, the things that broke and what I learned. New entries as the project moves toward the summer field study.</p>
+
+      <div class="log">
+
+        <div class="entry">
+          <div class="date">June 2026 · this week</div>
+          <h3>The advanced prototype comes together</h3>
+          <p>Assembling the full sensor stack on a breadboard — heart rate, skin temperature, motion, ambient, and the real-time clock all talking on one bus. The messy, wire-everywhere stage where an idea becomes something that actually reads a pulse.</p>
+          <div class="media">
+            <span class="mlabel">▶ Video / photos</span>
+            <span class="mhint">Drop today's breadboard build here</span>
+          </div>
+          <div class="tagrow"><span class="chip">prototype</span><span class="chip">sensors</span><span class="chip">ESP32</span></div>
+        </div>
+
+        <div class="entry">
+          <div class="date">June 2026</div>
+          <h3>The circuit board takes shape</h3>
+          <p>Turning the prototype into a real, wearable-sized board — a 4-layer design that fits everything into a watch. Working through the schematic with an engineer, learning how a tangle of breadboard wires becomes a clean, manufacturable layout.</p>
+          <div class="media">
+            <span class="mlabel">▶ Schematic / screenshots</span>
+            <span class="mhint">Add the schematic view here</span>
+          </div>
+          <div class="tagrow"><span class="chip">PCB design</span><span class="chip">schematic</span><span class="chip">4-layer</span></div>
+        </div>
+
+        <div class="entry">
+          <div class="date">Spring 2026</div>
+          <h3>From a question to a device</h3>
+          <p>The project began as a research question — does heat danger really follow the clock the law assumes? — and grew into designing a device to actually measure it. Choosing sensors, defining the form factor, and learning what it takes to build hardware as a student.</p>
+          <div class="media">
+            <span class="mlabel">▶ Early concepts</span>
+            <span class="mhint">Add design concepts / sketches here</span>
+          </div>
+          <div class="tagrow"><span class="chip">research</span><span class="chip">design</span><span class="chip">origins</span></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- RESEARCH -->
+  <section id="research">
+    <div class="wrap">
+      <p class="sec-tag">The research</p>
+      <h2>A question the law may be getting wrong.</h2>
+      <p class="sec-lead">Many Gulf countries protect outdoor workers with a midday work ban — no labor during fixed afternoon hours in summer. It assumes danger keeps office hours. Saya's study asks whether that's true.</p>
+
+      <div class="features" style="margin-top:36px;">
+        <div class="feat">
+          <div class="ic" style="background:#e7eefb"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3a78d6" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+          <h3>Aim 1 — Can it detect strain?</h3>
+          <p>Evaluate whether a low-cost wearable can detect rising heat strain in real outdoor working conditions and issue staged early warnings.</p>
+        </div>
+        <div class="feat">
+          <div class="ic" style="background:#fbf2dc"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#e7b13b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg></div>
+          <h3>Aim 2 — When does strain happen?</h3>
+          <p>Examine whether dangerous strain occurs <em>outside</em> the legally protected midday hours — testing whether time-based protection matches when danger actually strikes.</p>
+        </div>
+        <div class="feat">
+          <div class="ic" style="background:#e8f3ec"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3fa66a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 3v9l6-3"/></svg></div>
+          <h3>The goal — better protection</h3>
+          <p>If danger doesn't follow the clock, the evidence could help shape protection that follows the <em>worker</em> instead of the schedule.</p>
+        </div>
+      </div>
+
+      <!-- LIVE TOOL CALLOUT -->
+      <div style="margin-top:22px;background:var(--ink);color:#f3eee3;border-radius:16px;padding:30px 32px;display:flex;gap:30px;align-items:center;flex-wrap:wrap;">
+        <div style="flex:1;min-width:280px;">
+          <p style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--orange);font-weight:600;margin:0 0 10px 0;">Live companion tool</p>
+          <h3 style="font-size:24px;font-weight:600;letter-spacing:-0.02em;margin:0 0 10px 0;color:#fff;">See the gap for yourself, right now</h3>
+          <p style="font-size:14.5px;line-height:1.65;color:#c8c0b2;margin:0;max-width:56ch;">I built a live tool that pulls Kuwait's current temperature and humidity, computes the heat index using the <strong style="color:#fff;">same equation that runs inside Saya</strong>, and shows hour by hour how much of today's dangerous heat falls <em>outside</em> the protected midday window. No trial data needed — the public weather record already makes the argument.</p>
+        </div>
+        <a href="heat-risk.html" style="background:var(--orange);color:#fff;text-decoration:none;font-size:15px;font-weight:500;padding:14px 26px;border-radius:100px;white-space:nowrap;">Open the live tool →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="fwrap">
+      <h2>Follow along.</h2>
+      <p class="ftext">Saya is an ongoing project — built in the open, with a field study planned for summer 2026. Reach out if you're a researcher, worker-safety advocate, or just curious.</p>
+      <div class="fcontact">
+        <a href="index.html">← Back to veersahni.com</a>
+        <a href="#log">Build log</a>
+        <a href="mailto:veerssahni@gmail.com">Get in touch</a>
+      </div>
+      <div class="legal">
+        SAYA · A RESEARCH &amp; ENGINEERING PROJECT BY VEER SAHNI<br>
+        Conducted with academic supervision under approved research ethics review · Built for the people who build everything else.
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

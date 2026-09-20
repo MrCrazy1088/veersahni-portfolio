@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Green Horizons · Veer Sahni</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
+<script src="image-slot.js"></script>
+<style>
+  :root{
+    --ink:#1c1a18; --paper:#efece5; --card:#fff; --cream:#f9f6ef;
+    --line:#e0d8c7; --line2:#ece4d2; --muted:#8a8275; --body:#2e2a26;
+    --orange:#f06a2a; --orange2:#e23a2f; --amber:#e7b13b;
+    --green:#3fa66a; --green2:#2f7d4f; --blue:#3a78d6;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--paper);font-family:'Space Grotesk',system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  a{color:inherit;}
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0.5;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");}
+
+  .ph-tag{font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:0.1em;text-transform:uppercase;color:#aa9c80;background:repeating-linear-gradient(45deg,transparent,transparent 6px,rgba(201,191,166,0.13) 6px,rgba(201,191,166,0.13) 12px);padding:1px 5px;border-radius:4px;display:inline-block;}
+  image-slot{--is-empty-bg:var(--cream);--is-empty-fg:var(--muted);--is-empty-border:1.5px dashed #c9bfa6;}
+
+  .greenline{height:4px;width:100%;background:linear-gradient(90deg,var(--green),var(--amber) 60%,var(--orange));border-radius:2px;}
+
+  .nav{position:sticky;top:0;z-index:50;background:rgba(239,236,229,0.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);}
+  .nav-inner{max-width:1000px;margin:0 auto;padding:14px 32px;display:flex;align-items:center;gap:20px;}
+  .nav .back{display:flex;align-items:center;gap:8px;font-size:13px;text-decoration:none;font-family:'IBM Plex Mono',monospace;color:var(--body);font-weight:500;transition:color .15s;}
+  .nav .back:hover{color:var(--green2);}
+  .nav .tag{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+
+  .wrap{max-width:1000px;margin:0 auto;padding:0 32px;position:relative;z-index:2;}
+
+  /* hero */
+  .hero{padding:60px 0 36px 0;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green2);font-weight:600;margin:0 0 18px 0;display:flex;align-items:center;gap:10px;}
+  .eyebrow::before{content:'';width:28px;height:2px;background:var(--green2);}
+  .hero h1{font-weight:600;font-size:62px;line-height:0.98;letter-spacing:-0.04em;margin:0 0 22px 0;}
+  .hero h1 .serif{font-family:'Newsreader',Georgia,serif;font-weight:500;font-style:italic;}
+  .hero .lede{font-family:'Newsreader',Georgia,serif;font-size:21px;line-height:1.55;color:var(--body);max-width:60ch;margin:0;text-wrap:pretty;}
+  .hero .lede strong{font-weight:600;font-style:italic;color:var(--ink);}
+
+  .facts{display:flex;gap:0;flex-wrap:wrap;margin-top:34px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--card);}
+  .fact{flex:1;min-width:140px;padding:18px 22px;border-right:1px solid var(--line);}
+  .fact:last-child{border-right:0;}
+  .fact .k{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+  .fact .v{font-size:17px;font-weight:600;letter-spacing:-0.01em;}
+  .fact .v.win{color:var(--green2);}
+
+  /* hero image */
+  .hero-media{margin-top:34px;position:relative;}
+  .hero-media image-slot{width:100%;height:440px;display:block;border-radius:18px;overflow:hidden;}
+  .hero-media .cap{position:absolute;left:16px;bottom:16px;background:var(--ink);color:#fff;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;padding:7px 13px;border-radius:7px;}
+
+  .sec{padding:46px 0;}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:18px;}
+  .sec-num{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);font-weight:600;}
+  .sec h2{font-weight:600;font-size:30px;letter-spacing:-0.025em;margin:0;}
+  .sec h2 .serif{font-family:'Newsreader',serif;font-style:italic;font-weight:500;}
+  .prose{font-size:16px;line-height:1.7;color:var(--body);max-width:64ch;}
+  .prose p{margin:0 0 16px 0;text-wrap:pretty;}
+  .prose strong{color:var(--ink);}
+
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:8px;}
+  .card{background:var(--card);border:1px solid var(--line2);border-radius:14px;padding:22px 24px;}
+  .card .ic{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:13px;}
+  .card h3{margin:0 0 8px 0;font-size:18px;font-weight:600;letter-spacing:-0.015em;}
+  .card p{margin:0;font-size:13.5px;line-height:1.55;color:var(--body);}
+
+  /* gallery */
+  .gal{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:200px;gap:14px;}
+  .gal image-slot{width:100%;height:100%;display:block;border-radius:14px;overflow:hidden;}
+  .gal .tall{grid-row:span 2;}
+  .gal .wide{grid-column:span 2;}
+  @media(max-width:720px){.gal{grid-template-columns:1fr 1fr;}.twocol{grid-template-columns:1fr;}}
+
+  .videobox{margin-top:14px;}
+  .videobox image-slot{width:100%;height:420px;display:block;border-radius:16px;overflow:hidden;}
+  .videohint{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-top:10px;text-align:center;}
+
+  .press{background:var(--ink);border-radius:18px;padding:30px 34px;margin-top:10px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;}
+  .press .pq{font-family:'Newsreader',serif;font-style:italic;font-size:21px;line-height:1.45;color:#f3eee3;flex:1;min-width:260px;}
+  .press a{display:inline-flex;align-items:center;gap:8px;background:var(--orange);color:#fff;text-decoration:none;font-weight:600;font-size:13.5px;padding:12px 20px;border-radius:100px;white-space:nowrap;}
+
+  .foot{padding:50px 0 70px 0;border-top:1px solid var(--line);margin-top:30px;text-align:center;}
+  .foot a{display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:13px;text-decoration:none;color:var(--green2);font-weight:600;}
+
+  @media(max-width:640px){.hero h1{font-size:44px;}.hero-media image-slot{height:280px;}.facts .fact{min-width:50%;}}
+</style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="back" href="Veer Sahni - Personal Site.html">← Back to Veer Sahni</a>
+      <span class="tag">Project · 2025</span>
+    </div>
+  </nav>
+
+  <div class="wrap">
+
+    <!-- HERO -->
+    <header class="hero">
+      <p class="eyebrow">bp Kuwait × iDRAK · STEM Innovation Program</p>
+      <h1>Green <span class="serif">Horizons</span></h1>
+      <p class="lede">A student sustainability &amp; clean-energy project that placed <strong>1st</strong> in Kuwait's national STEM innovation challenge — my first taste of building technology to solve a real environmental problem, and the start of the path that led to Saya.</p>
+
+      <div class="facts">
+        <div class="fact"><div class="k">Result</div><div class="v win">🏆 1st Place</div></div>
+        <div class="fact"><div class="k">Program</div><div class="v">bp Kuwait × iDRAK</div></div>
+        <div class="fact"><div class="k">Year</div><div class="v">2025</div></div>
+        <div class="fact"><div class="k">Theme</div><div class="v">Sustainability</div></div>
+      </div>
+
+      <div class="hero-media">
+        <image-slot id="gh-hero" shape="rounded" placeholder="Your team / project hero photo (the big check, the presentation, the prototype)"></image-slot>
+        <div class="cap">GREEN HORIZONS · iDRAK 2025</div>
+      </div>
+    </header>
+
+    <!-- ABOUT -->
+    <section class="sec">
+      <div class="sec-head"><span class="sec-num">01</span><h2>The <span class="serif">project</span></h2></div>
+      <div class="prose">
+        <p><span class="ph-tag">Replace with your real description — 2-3 short paragraphs.</span> Green Horizons was my team's response to the bp Kuwait × iDRAK challenge to <strong>reimagine a more sustainable future for Kuwait</strong>. <span class="ph-tag">what problem did you tackle — energy? water? waste? heat?</span></p>
+        <p><span class="ph-tag">what did you build / propose, and how does it work — one clear paragraph a non-expert understands.</span></p>
+        <p>Out of <strong>22 competing schools</strong>, our project was awarded <strong>1st place</strong>. <span class="ph-tag">add: what the judges responded to, or what you'd do next.</span></p>
+      </div>
+    </section>
+
+    <!-- ROLE / WHAT I DID -->
+    <section class="sec">
+      <div class="sec-head"><span class="sec-num">02</span><h2>What I <span class="serif">did</span></h2></div>
+      <div class="twocol">
+        <div class="card">
+          <div class="ic" style="background:#e8f3ec;">🌱</div>
+          <h3>The idea</h3>
+          <p><span class="ph-tag">your role in shaping the concept — what was your contribution to the idea?</span></p>
+        </div>
+        <div class="card">
+          <div class="ic" style="background:#e7eefb;">🛠️</div>
+          <h3>Building it</h3>
+          <p><span class="ph-tag">what you personally built / designed / coded / modelled.</span></p>
+        </div>
+        <div class="card">
+          <div class="ic" style="background:#fdeede;">🎤</div>
+          <h3>The pitch</h3>
+          <p><span class="ph-tag">presenting to the judges — what was that like, what did you say?</span></p>
+        </div>
+        <div class="card">
+          <div class="ic" style="background:#fbf2dc;">🤝</div>
+          <h3>The team</h3>
+          <p><span class="ph-tag">who you worked with and how you led / collaborated.</span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIDEO -->
+    <section class="sec">
+      <div class="sec-head"><span class="sec-num">03</span><h2>In <span class="serif">motion</span></h2></div>
+      <div class="videobox">
+        <image-slot id="gh-video" shape="rounded" placeholder="Drop your Green Horizons video here (pitch clip, demo, or highlight reel)"></image-slot>
+        <p class="videohint">↑ a short clip of the project or pitch brings this page to life</p>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="sec">
+      <div class="sec-head"><span class="sec-num">04</span><h2>The <span class="serif">gallery</span></h2></div>
+      <div class="gal">
+        <image-slot id="gh-g1" class="tall" shape="rounded" placeholder="Award moment / the check"></image-slot>
+        <image-slot id="gh-g2" shape="rounded" placeholder="Prototype / model"></image-slot>
+        <image-slot id="gh-g3" shape="rounded" placeholder="Team photo"></image-slot>
+        <image-slot id="gh-g4" class="wide" shape="rounded" placeholder="Presenting / the event"></image-slot>
+        <image-slot id="gh-g5" shape="rounded" placeholder="Detail / poster"></image-slot>
+      </div>
+    </section>
+
+    <!-- PRESS -->
+    <section class="sec">
+      <div class="sec-head"><span class="sec-num">05</span><h2>In the <span class="serif">press</span></h2></div>
+      <div class="press">
+        <div class="pq">"bp Kuwait, IDRAK empower youth through STEM innovation program"</div>
+        <a href="https://kuwaittimes.com/article/26672/kuwait/other-news/bp-kuwait-idrak-empower-youth-through-stem-innovation-program/" target="_blank" rel="noopener">Read in Kuwait Times ↗</a>
+      </div>
+    </section>
+
+    <div class="foot">
+      <a href="https://www.instagram.com/idrak.kw/" target="_blank" rel="noopener">Follow @idrak.kw on Instagram ↗</a>
+    </div>
+
+  </div>
+
+</body>
+</html>

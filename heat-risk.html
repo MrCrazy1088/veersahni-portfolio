@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Kuwait Heat Risk · Saya</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&family=Archivo:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#181614; --paper:#f2efe9; --card:#fff; --cream:#faf8f3;
+    --line:#e3ddd0; --line2:#eee8db; --muted:#8b8375; --body:#332f29;
+    --safe:#3f7a53; --caution:#c9a227; --xcaution:#d97706; --danger:#c2410c; --xdanger:#9a1f14;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--paper);font-family:'Archivo',system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;}
+  a{color:var(--danger);} a:hover{color:var(--xdanger);}
+  .wrap{max-width:1020px;margin:0 auto;padding:0 26px 80px 26px;}
+
+  /* header */
+  header{padding:38px 0 22px 0;border-bottom:1px solid var(--line);}
+  .brandrow{display:flex;align-items:center;gap:10px;margin-bottom:18px;}
+  .brandrow .nm{font-family:'Instrument Serif',Georgia,serif;font-size:23px;letter-spacing:-0.01em;}
+  .kicker{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.17em;text-transform:uppercase;color:var(--muted);margin:0 0 9px 0;}
+  h1{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:44px;line-height:1.02;letter-spacing:-0.015em;margin:0 0 12px 0;}
+  h1 em{font-style:italic;color:var(--danger);}
+  .lede{font-size:14px;line-height:1.6;color:var(--body);max-width:62ch;margin:0;}
+
+  /* now panel */
+  .now{margin-top:26px;display:grid;grid-template-columns:1.15fr 1fr;gap:16px;align-items:stretch;}
+  .stage{border-radius:4px;padding:24px 26px;color:#fff;display:flex;flex-direction:column;justify-content:center;min-height:190px;background:var(--muted);transition:background .4s;}
+  .stage .lbl{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;opacity:.85;}
+  .stage .big{font-family:'Instrument Serif',Georgia,serif;font-size:64px;line-height:0.95;margin:8px 0 4px 0;}
+  .stage .unit{font-size:26px;opacity:.7;}
+  .stage .name{font-size:19px;font-weight:600;letter-spacing:-0.01em;margin-top:6px;}
+  .datestamp{display:inline-block;margin:10px 0 0 0;padding:7px 14px;background:var(--ink);color:#f7f4ee;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;letter-spacing:0.04em;}
+  .stage .sub{font-size:12.5px;line-height:1.5;opacity:.9;margin-top:8px;}
+  .facts{background:var(--card);border:1px solid var(--line2);border-radius:4px;padding:20px 22px;}
+  .fact{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--line2);}
+  .fact:last-child{border-bottom:0;}
+  .fact .k{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.09em;text-transform:uppercase;color:var(--muted);}
+  .fact .v{font-size:17px;font-weight:500;}
+  .fact .v small{font-size:11.5px;color:var(--muted);font-weight:400;}
+
+  /* section */
+  h2{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:30px;letter-spacing:-0.01em;margin:44px 0 4px 0;}
+  h2 em{font-style:italic;color:var(--danger);}
+  .note{font-size:13px;line-height:1.6;color:var(--body);margin:0 0 16px 0;max-width:66ch;}
+
+  /* chart */
+  .chartbox{background:var(--card);border:1px solid var(--line2);border-radius:4px;padding:20px 22px 14px 22px;overflow-x:auto;}
+  .bars{display:flex;gap:3px;align-items:flex-end;height:210px;min-width:640px;}
+  .col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;position:relative;cursor:default;}
+  .col .bar{width:100%;border-radius:2px 2px 0 0;background:var(--muted);transition:opacity .15s;}
+  .col.ban .bar{outline:1.5px solid rgba(24,22,20,.35);outline-offset:-1.5px;}
+  .col:hover .bar{opacity:.72;}
+  .col .hv{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--body);margin-bottom:3px;white-space:nowrap;}
+  .hrs{display:flex;gap:3px;min-width:640px;margin-top:7px;padding-top:7px;border-top:1px solid var(--line2);}
+  .hr{flex:1;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);}
+  .hr.ban{color:var(--ink);font-weight:600;}
+  .banstrip{display:flex;gap:3px;min-width:640px;margin-top:5px;}
+  .bs{flex:1;height:3px;border-radius:2px;background:transparent;}
+  .bs.on{background:var(--ink);}
+  .banlab{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-top:8px;}
+
+  /* verdict */
+  .verdict{margin-top:16px;background:var(--ink);color:#f4f0e8;border-radius:4px;padding:18px 22px;font-size:13.5px;line-height:1.65;}
+  .verdict .tag{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.15em;text-transform:uppercase;color:var(--caution);display:block;margin-bottom:7px;font-weight:600;}
+  .verdict strong{color:#fff;}
+
+  /* insight */
+  .insight{margin-top:26px;background:var(--card);border:1px solid var(--line2);border-left:3px solid var(--ink);border-radius:4px;padding:20px 24px;}
+  .insight .tag{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:11px;font-weight:600;}
+  .insight p{font-size:13.5px;line-height:1.65;color:var(--body);margin:0 0 12px 0;max-width:74ch;text-wrap:pretty;}
+  .insight p:last-child{margin-bottom:0;}
+  .insight strong{color:var(--ink);}
+  .insight .caveat{border-top:1px solid var(--line2);padding-top:12px;margin-top:15px;font-size:13px;color:#5c5850;}
+
+  /* scale legend */
+  .scale{margin-top:18px;display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
+  .sc{border-radius:3px;padding:11px 12px;color:#fff;}
+  .sc .r{font-family:'IBM Plex Mono',monospace;font-size:9.5px;opacity:.85;letter-spacing:0.05em;}
+  .sc .n{font-size:12.5px;font-weight:600;margin-top:3px;line-height:1.25;}
+
+  /* method */
+  .method{margin-top:18px;background:var(--cream);border:1px solid var(--line2);border-radius:4px;padding:18px 22px;}
+  .method p{font-size:12.5px;line-height:1.65;color:var(--body);margin:8px 0;}
+  .eq{font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:1.7;color:var(--body);background:var(--card);border:1px solid var(--line2);border-radius:3px;padding:12px 14px;margin:10px 0;overflow-x:auto;white-space:pre-wrap;}
+  .foot{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--muted);letter-spacing:0.05em;line-height:1.8;}
+  .err{background:#f8e9e7;border:1px solid #e9b7b1;border-left:3px solid var(--danger);border-radius:4px;padding:14px 18px;font-size:13px;color:#7a2119;margin-top:16px;}
+  @media(max-width:760px){.now{grid-template-columns:1fr;}.scale{grid-template-columns:1fr 1fr;}h1{font-size:34px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav style="padding:16px 0 0 0;display:flex;gap:18px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">
+    <a href="Veer Sahni - Personal Site v2.html" style="color:#6b6559;text-decoration:none;">← Home</a>
+    <a href="Saya - Public Page.html" style="color:#6b6559;text-decoration:none;">Saya project</a>
+  </nav>
+  <header>
+    <div class="brandrow">
+      <svg width="26" height="26" viewBox="0 0 40 40" aria-hidden="true">
+        <defs><clipPath id="hm"><path d="M 0 0 L 40 0 L 40 18 Q 20 26 0 18 Z"/></clipPath></defs>
+        <circle cx="20" cy="20" r="14" fill="none" stroke="#c2410c" stroke-width="2.5"/>
+        <circle cx="20" cy="20" r="14" fill="#c2410c" clip-path="url(#hm)"/>
+      </svg>
+      <span class="nm">saya</span>
+    </div>
+    <p class="kicker">Live heat risk · Kuwait City</p>
+    <p class="datestamp" id="todayStamp">—</p>
+    <h1>How dangerous is the heat <em>right now?</em></h1>
+    <p class="lede">This tool computes the apparent temperature — the heat index — from live temperature and humidity, using the same equation that runs inside the Saya wearable. It then shows the risk hour by hour, with Kuwait's legal midday work-ban window marked, so you can see whether the danger actually falls inside the protected hours.</p>
+  </header>
+
+  <div id="errbox"></div>
+
+  <div class="now">
+    <div class="stage" id="stage">
+      <span class="lbl">Feels like</span>
+      <div><span class="big" id="hiNow">—</span><span class="unit">°C</span></div>
+      <div class="name" id="stageName">Loading live conditions…</div>
+      <div class="sub" id="stageSub"></div>
+    </div>
+    <div class="facts">
+      <div class="fact"><span class="k">Air temperature</span><span class="v" id="tNow">—</span></div>
+      <div class="fact"><span class="k">Relative humidity</span><span class="v" id="rhNow">—</span></div>
+      <div class="fact"><span class="k">Heat index</span><span class="v" id="hiFact">—</span></div>
+      <div class="fact"><span class="k">Local time</span><span class="v" id="timeNow">—</span></div>
+      <div class="fact"><span class="k">Inside work ban?</span><span class="v" id="banNow">—</span></div>
+    </div>
+  </div>
+
+  <h2>Today, <em>hour by hour</em></h2>
+  <p class="note">Each bar is the heat index for that hour. Bars outlined in black fall inside the <strong>11:00–16:00</strong> work ban (1 June – 31 August). Bars outside that outline are hours when outdoor work is <strong>legally permitted</strong> — whatever the heat index says.</p>
+  <div class="chartbox">
+    <div class="bars" id="bars"></div>
+    <div class="banstrip" id="banstrip"></div>
+    <div class="hrs" id="hrs"></div>
+    <div class="banlab">▬ Solid bar below = 11:00–16:00 legal work ban</div>
+  </div>
+
+  <div class="verdict" id="verdict" style="display:none;">
+    <span class="tag">What the forecast shows</span>
+    <span id="verdictText"></span>
+  </div>
+
+  <div class="insight">
+    <span class="tag">Why the chart looks backwards</span>
+    <p><strong>The hottest hour is often not the most dangerous one.</strong> Heat index combines temperature and humidity, because what harms the body is not air temperature — it is the body's inability to shed heat. Sweat cools you only when it evaporates, and evaporation slows as the air gets more humid.</p>
+    <p>In Kuwait that produces a counter-intuitive pattern. Mid-afternoon is the hottest and driest part of the day, so sweat evaporates efficiently and the heat index can sit <em>below</em> the air temperature. Later in the day the temperature falls but humidity climbs, evaporation becomes less effective, and the heat index can <em>rise</em> even as the thermometer drops. This is precisely why a clock-based rule is a poor proxy for physiological danger — and it is the question the Saya field study is designed to answer.</p>
+    <p class="caveat"><strong>One limitation worth stating plainly.</strong> These figures are shade values from a weather station. A worker in direct sun on a reflective surface experiences a substantially higher effective heat load — solar radiation and radiant heat from concrete and steel are not captured here. The occupational standard for this is <strong>WBGT</strong> (wet-bulb globe temperature), which adds a radiant-heat measurement. So treat this page as a conservative floor on outdoor risk, not a ceiling.</p>
+  </div>
+
+  <h2>Risk <em>scale</em></h2>
+  <p class="note">Thresholds follow the US National Weather Service heat-index categories, converted to Celsius. Saya uses the 32 °C and 41 °C boundaries as its warning and danger conditions.</p>
+  <div class="scale">
+    <div class="sc" style="background:var(--safe)"><div class="r">below 27 °C</div><div class="n">Normal</div></div>
+    <div class="sc" style="background:var(--caution)"><div class="r">27 – 32 °C</div><div class="n">Caution</div></div>
+    <div class="sc" style="background:var(--xcaution)"><div class="r">32 – 41 °C</div><div class="n">Extreme caution</div></div>
+    <div class="sc" style="background:var(--danger)"><div class="r">41 – 54 °C</div><div class="n">Danger</div></div>
+    <div class="sc" style="background:var(--xdanger)"><div class="r">54 °C and above</div><div class="n">Extreme danger</div></div>
+  </div>
+
+  <h2>How it's <em>calculated</em></h2>
+  <div class="method">
+    <p>The heat index is the Rothfusz (1990) regression used by the US National Weather Service. It is defined in Fahrenheit, so temperature is converted, the equation applied, and the result converted back to Celsius:</p>
+    <div class="eq">HI = −42.379 + 2.04901523T + 10.14333127R − 0.22475541TR
+     − 0.00683783T² − 0.05481717R² + 0.00122874T²R
+     + 0.00085282TR² − 0.00000199T²R²
+
+where T = air temperature (°F), R = relative humidity (%)</div>
+    <p>Two NWS adjustments are applied at the edges of the range. In <strong>dry heat</strong> (R below 13%, T between 80 °F and 112 °F) the index is reduced, which matters in Kuwait where summer humidity is often very low. In <strong>humid, milder</strong> conditions (R above 85%, T between 80 °F and 87 °F) it is increased. Below roughly 80 °F a simplified formula is used instead, as the regression is not valid there.</p>
+    <p><strong>Why this matters for the research:</strong> heat index combines temperature and humidity into a single measure of physiological strain, because sweat cannot evaporate efficiently in humid air. A 42 °C day at 15% humidity and a 38 °C day at 50% humidity are not equally dangerous, and air temperature alone cannot tell them apart.</p>
+  </div>
+
+  <div class="foot">
+    LIVE DATA · OPEN-METEO FORECAST API · KUWAIT CITY 29.3759°N 47.9774°E<br>
+    HEAT INDEX · ROTHFUSZ (1990), NWS CATEGORIES · SAME EQUATION AS THE SAYA FIRMWARE<br>
+    NOT A SUBSTITUTE FOR MEDICAL OR OCCUPATIONAL-SAFETY ADVICE · BUILT BY VEER SAHNI
+  </div>
+</div>
+
+<script>
+const LAT=29.3759, LON=47.9774;
+const STAGES=[
+  {max:27, name:'Normal', color:'#3f7a53', sub:'No elevated heat risk from the current conditions.'},
+  {max:32, name:'Caution', color:'#c9a227', sub:'Fatigue possible with prolonged exposure and activity. Drink water regularly.'},
+  {max:41, name:'Extreme caution', color:'#d97706', sub:'Heat cramps and heat exhaustion possible with prolonged exertion. This range meets the environmental condition Saya requires — but Saya only warns if the wearer’s heart rate is also elevated.'},
+  {max:54, name:'Danger', color:'#c2410c', sub:'Heat exhaustion likely and heat stroke possible with continued activity. This range meets Saya’s environmental danger condition — an alert still requires the wearer’s heart rate to be elevated as well.'},
+  {max:999,name:'Extreme danger', color:'#9a1f14', sub:'Heat stroke highly likely. Outdoor exertion is unsafe.'}
+];
+const stageFor = hi => STAGES.find(s => hi < s.max) || STAGES[STAGES.length-1];
+
+// Rothfusz heat index. Input °C + %RH, output °C.
+function heatIndexC(tC, rh){
+  const T = tC*9/5 + 32;
+  // simple formula first (NWS practice)
+  let hi = 0.5*(T + 61 + (T-68)*1.2 + rh*0.094);
+  if ((hi + T)/2 >= 80){
+    hi = -42.379 + 2.04901523*T + 10.14333127*rh
+       - 0.22475541*T*rh - 0.00683783*T*T - 0.05481717*rh*rh
+       + 0.00122874*T*T*rh + 0.00085282*T*rh*rh - 0.00000199*T*T*rh*rh;
+    if (rh < 13 && T >= 80 && T <= 112){
+      hi -= ((13-rh)/4) * Math.sqrt((17-Math.abs(T-95))/17);
+    } else if (rh > 85 && T >= 80 && T <= 87){
+      hi += ((rh-85)/10) * ((87-T)/5);
+    }
+  }
+  return (hi-32)*5/9;
+}
+const inBan = h => h >= 11 && h < 16;
+
+function render(cur, hourly){
+  // ---- now panel ----
+  const hi = heatIndexC(cur.t, cur.rh);
+  const st = stageFor(hi);
+  const stage = document.getElementById('stage');
+  stage.style.background = st.color;
+  document.getElementById('todayStamp').textContent =
+    new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'})
+    + ' · updated ' + new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('hiNow').textContent = hi.toFixed(1);
+  document.getElementById('stageName').textContent = st.name;
+  document.getElementById('stageSub').textContent = st.sub;
+  document.getElementById('tNow').innerHTML = cur.t.toFixed(1)+' °C';
+  document.getElementById('rhNow').innerHTML = Math.round(cur.rh)+' %';
+  document.getElementById('hiFact').innerHTML = hi.toFixed(1)+' °C <small>'+(hi>cur.t?'+':'')+(hi-cur.t).toFixed(1)+' vs air</small>';
+  const d = new Date(cur.time);
+  const hh = d.getHours();
+  document.getElementById('timeNow').textContent = String(hh).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+  document.getElementById('banNow').innerHTML = inBan(hh)
+    ? 'Yes <small>work prohibited</small>'
+    : 'No <small>work permitted</small>';
+
+  // ---- hourly chart ----
+  const vals = hourly.map(h => ({hr:new Date(h.time).getHours(), hi:heatIndexC(h.t, h.rh)}));
+  const max = Math.max(...vals.map(v=>v.hi), 45);
+  const min = Math.min(...vals.map(v=>v.hi), 20) - 3;
+  const bars=document.getElementById('bars'), hrs=document.getElementById('hrs'), strip=document.getElementById('banstrip');
+  bars.innerHTML=''; hrs.innerHTML=''; strip.innerHTML='';
+  vals.forEach(v=>{
+    const ban = inBan(v.hr);
+    const s = stageFor(v.hi);
+    const pct = Math.max(4, ((v.hi-min)/(max-min))*100);
+    const col=document.createElement('div');
+    col.className='col'+(ban?' ban':'');
+    col.title = String(v.hr).padStart(2,'0')+':00 — '+v.hi.toFixed(1)+' °C · '+s.name+(ban?' · inside work ban':' · work permitted');
+    col.innerHTML='<span class="hv">'+v.hi.toFixed(0)+'</span><div class="bar" style="height:'+pct+'%;background:'+s.color+'"></div>';
+    bars.appendChild(col);
+    const hl=document.createElement('div');
+    hl.className='hr'+(ban?' ban':'');
+    hl.textContent=String(v.hr).padStart(2,'0');
+    hrs.appendChild(hl);
+    const b=document.createElement('div');
+    b.className='bs'+(ban?' on':'');
+    strip.appendChild(b);
+  });
+
+  // ---- verdict ----
+  const risky = vals.filter(v=>v.hi>=32);
+  const outside = risky.filter(v=>!inBan(v.hr));
+  const vb=document.getElementById('verdict'), vt=document.getElementById('verdictText');
+  if(risky.length===0){
+    vt.innerHTML='No hour today reaches the 32 °C heat-index threshold, so conditions stay below Saya\u2019s warning level.';
+  } else if(outside.length===0){
+    vt.innerHTML='All <strong>'+risky.length+'</strong> hours at or above the 32 °C heat-index threshold fall inside the 11:00\u201316:00 ban. On a day like this, the time-based rule and the environmental risk line up.';
+  } else {
+    const peakOut = outside.reduce((a,b)=>b.hi>a.hi?b:a);
+    vt.innerHTML='<strong>'+risky.length+'</strong> hours today reach the 32 °C heat-index threshold, and <strong>'+outside.length+' of them fall outside the 11:00\u201316:00 ban</strong> \u2014 hours when outdoor work is legally permitted. The worst unprotected hour is <strong>'+String(peakOut.hr).padStart(2,'0')+':00 at '+peakOut.hi.toFixed(1)+' °C</strong>. This is the environmental exposure the ban leaves uncovered. Whether it produces measurable strain in any individual depends on their activity, fitness and acclimatisation — which is what the Saya study measures.';
+  }
+  vb.style.display='block';
+}
+
+async function load(){
+  const url='https://api.open-meteo.com/v1/forecast?latitude='+LAT+'&longitude='+LON
+    +'&current=temperature_2m,relative_humidity_2m'
+    +'&hourly=temperature_2m,relative_humidity_2m'
+    +'&timezone=Asia%2FKuwait&forecast_days=1';
+  try{
+    const r = await fetch(url);
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const j = await r.json();
+    const cur = {t:j.current.temperature_2m, rh:j.current.relative_humidity_2m, time:j.current.time};
+    const hourly = j.hourly.time.map((t,i)=>({time:t, t:j.hourly.temperature_2m[i], rh:j.hourly.relative_humidity_2m[i]}));
+    render(cur, hourly);
+  }catch(e){
+    document.getElementById('errbox').innerHTML =
+      '<div class="err"><strong>Could not load live weather.</strong> '+e.message
+      +' \u2014 the tool needs an internet connection to reach the Open-Meteo forecast service. '
+      +'Reload to try again.</div>';
+    document.getElementById('stageName').textContent='Live data unavailable';
+  }
+}
+load();
+</script>
+</body>
+</html>
